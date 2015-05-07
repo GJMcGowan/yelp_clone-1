@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @restaurant = Restaurant.find(params[:restaurant_id])
     @review = Review.new
@@ -20,5 +22,17 @@ class ReviewsController < ApplicationController
 
   def review_params
     params.require(:review).permit(:thoughts, :rating)
+  end
+
+  def destroy
+    @review = Review.find(params[:id])
+    if @review.user_id == current_user.id
+      @review.destroy
+      flash[:notice] = 'Review deleted successfully'
+      redirect_to '/restaurants'
+    else
+      flash[:notice] = 'You can only delete reviews you have made'
+      redirect_to '/restaurants'
+    end
   end
 end

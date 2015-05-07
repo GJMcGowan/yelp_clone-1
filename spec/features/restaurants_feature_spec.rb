@@ -64,8 +64,6 @@ feature 'restaurants' do
   end
 
   context 'editing restaurants' do
-    # before { Restaurant.create name: 'KFC' }
-
     scenario 'let a user edit a restaurant' do
       visit '/restaurants'
       click_link 'Add a restaurant'
