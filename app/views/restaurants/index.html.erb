@@ -13,10 +13,10 @@
         <% restaurant.reviews.each do |review| %>
           <li>
             <%= review.thoughts %>, <strong><%= review.rating %></strong>/5 <%= link_to "Delete Review", restaurant_review_path(restaurant, review), method: :delete %>
-     
           </li>
         <% end %>
       </ul>
+      <h3>Average rating: <%= restaurant.average_rating.to_i %></h3>
     <% else %>
       <p>No reviews.</p>
     <% end %>

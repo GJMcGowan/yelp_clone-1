@@ -4,10 +4,10 @@ feature 'reviewing' do
   
   before { Restaurant.create name: 'KFC' }
 
-  def sign_up
+  def sign_up(email = "test@test.com")
     visit('/')
     click_link('Sign up')
-    fill_in('Email', with: 'test@example.com')
+    fill_in('Email', with: email)
     fill_in('Password', with: 'testtest')
     fill_in('Password confirmation', with: 'testtest')
     click_button('Sign up')
@@ -45,8 +45,20 @@ feature 'reviewing' do
   end
 
   scenario 'displays an average rating for all reviews' do
+    sign_up
     leave_review('So so', '3')
+    click_link('Sign out')
+    sign_up("test2@test.com")
     leave_review('Great', '5')
     expect(page).to have_content('Average rating: 4')
+  end
+
+  scenario 'displays an average rating for all reviews' do
+    sign_up
+    leave_review('so so', '3')
+    click_link('Sign out')
+    sign_up("test2@test.com")
+    leave_review('Great!', '5')
+    expect(page).to have_content('Average rating ★★★★☆')
   end
 end
